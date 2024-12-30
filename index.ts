@@ -1,104 +1,62 @@
-abstract class Department {
-  // private readonly id: string;
-  // private name: string;
-  protected employees: string[] = [];
+// type AddFn = (a: number, b: number) => number;
+interface AddFn {
+  (a: number, b: number): number;
+}
 
-  constructor(protected readonly id: string, public name: string) {}
+let add: AddFn;
 
-  abstract describe(this: Department): void;
+add = (n1, n2) => {
+  return n1 + n2;
+};
 
-  addEmployee(employee: string) {
-    this.employees.push(employee);
+add(1, 2);
+
+interface Named {
+  readonly name?: string;
+  outputName?: string;
+}
+
+interface Aged {
+  age: number;
+}
+
+interface Greetable extends Named {
+  greet?(phrase: string): void;
+}
+
+class Person implements Greetable, Aged {
+  name?: string;
+  age = 30;
+
+  constructor(n?: string) {
+    if (n) {
+      this.name = n;
+    }
   }
 
-  printEmployeeInformation() {
-    console.log(this.employees.length);
-    console.log(this.employees);
+  greet(phrase: string): void {
+    if (this.name) {
+      console.log(phrase + ' ' + this.name);
+    } else {
+      console.log(phrase);
+    }
   }
 }
 
-class ITDepartment extends Department {
-  constructor(id: string, public admins: string[]) {
-    super(id, 'IT');
-  }
+let user1: Greetable;
+user1 = new Person();
+// user1 = {
+//   name: 'John',
+//   age: 12,
+//   greet(phrase) {
+//     console.log(phrase + ' ' + this.name);
+//   },
+// };
 
-  describe() {
-    console.log('IT Department - ID: ' + this.id);
-  }
+if (user1.greet) {
+  user1.greet('Hi');
+} else {
+  console.log('No greet method defined.');
 }
-
-class AccountingDepartment extends Department {
-  private _lastReport: string;
-  private static instance: AccountingDepartment;
-
-  private constructor(id: string, private reports: string[]) {
-    super(id, 'Accounting');
-    this._lastReport = reports[-1];
-  }
-
-  static getInstance() {
-    if (this.instance) {
-      return this.instance;
-    }
-    this.instance = new AccountingDepartment('2', []);
-    return this.instance;
-  }
-
-  describe() {
-    console.log('Accounting Department - ID: ' + this.id);
-  }
-
-  get lastReport() {
-    if (this._lastReport) {
-      return this._lastReport;
-    }
-    throw new Error('No report found.');
-  }
-
-  set lastReport(text: string) {
-    if (!text) {
-      throw new Error('Please pass a valid value!');
-    }
-    this.addReport(text);
-  }
-
-  addEmployee(employee: string) {
-    if (employee === 'John') {
-      return;
-    }
-    this.employees.push(employee);
-  }
-
-  addReport(text: string) {
-    this.reports.push(text);
-    this._lastReport = text;
-  }
-
-  printReports() {
-    console.log(this.reports);
-  }
-}
-
-const it = new ITDepartment('1', ['John']);
-it.addEmployee('John');
-it.addEmployee('Mark');
-it.describe();
-it.printEmployeeInformation();
-console.log(it);
-
-// const accountingDepartment = new AccountingDepartment('2', []);
-const accountingDepartment = AccountingDepartment.getInstance();
-accountingDepartment.lastReport = 'Year End report';
-console.log(accountingDepartment);
-accountingDepartment.addReport('Sth went wrong');
-accountingDepartment.lastReport;
-accountingDepartment.addEmployee('John');
-accountingDepartment.addEmployee('Mary');
-// accountingDepartment.printReports();
-// accountingDepartment.printEmployeeInformation();
-accountingDepartment.describe();
-
-// accounting.employees[2] = 'Anna';
-
-// const accountingCopy = { describe: accounting.describe, name: 'DUMMY' };
-// accountingCopy.describe();
+// user1.name = '';
+console.log(user1);
