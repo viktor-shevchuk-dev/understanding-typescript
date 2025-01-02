@@ -10,8 +10,12 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/jsdom": "^21.1.7",
     "concurrently": "^9.1.0",
     "nodemon": "^3.1.9",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "jsdom": "^25.0.1"
   }
 }
