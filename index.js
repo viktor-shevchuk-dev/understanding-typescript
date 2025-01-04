@@ -28,3 +28,33 @@ function extractAndConvert(obj, key) {
     return obj[key];
 }
 console.log(extractAndConvert({ name: 'John' }, 'name'));
+class DataStorage {
+    constructor() {
+        this.data = [];
+    }
+    addItem(item) {
+        this.data.push(item);
+    }
+    removeItem(item) {
+        if (this.data.indexOf(item) === -1)
+            return;
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    getItems() {
+        return [...this.data];
+    }
+}
+const textStorage = new DataStorage();
+textStorage.addItem('John');
+const numberStorage = new DataStorage();
+numberStorage.addItem(1);
+function createCourseGoal(title, description, date) {
+    let courseGoal = {};
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+    return courseGoal;
+}
+const names = ['John', 'Ann', 'Kate'];
+// names.push('Bob'); // Property 'push' does not exist on type 'readonly string[]'.
+// names.pop(); // Property 'pop' does not exist on type 'readonly string[]'.

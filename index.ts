@@ -44,3 +44,46 @@ function extractAndConvert<T, U extends keyof T>(obj: T, key: U) {
 }
 
 console.log(extractAndConvert({ name: 'John' }, 'name'));
+
+class DataStorage<T extends boolean | string | number> {
+  private data: T[] = [];
+
+  addItem(item: T) {
+    this.data.push(item);
+  }
+
+  removeItem(item: T) {
+    if (this.data.indexOf(item) === -1) return;
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  getItems() {
+    return [...this.data];
+  }
+}
+const textStorage = new DataStorage<string>();
+textStorage.addItem('John');
+const numberStorage = new DataStorage<number>();
+numberStorage.addItem(1);
+
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
+
+function createCourseGoal(
+  title: string,
+  description: string,
+  date: Date
+): CourseGoal {
+  let courseGoal: Partial<CourseGoal> = {};
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+  return courseGoal as CourseGoal;
+}
+
+const names: Readonly<string[]> = ['John', 'Ann', 'Kate'];
+// names.push('Bob'); // Property 'push' does not exist on type 'readonly string[]'.
+// names.pop(); // Property 'pop' does not exist on type 'readonly string[]'.
